@@ -1,5 +1,5 @@
 # Wanikani Audio Mode Script
-
+![blurred review image](https://github.com/Electrosquib/Wanikani-Audio-Mode/blob/main/img/blurred.png)
 If you wish to improve your listening skills for Japanese vocabulary while doing your regular Wanikani reviews, this script is for you. I had trouble recognizing words when listening to japanese audio, even ones I already knew. Listening to more material helps, but I wanted to incorporate it into my regular Wanikani routine to maximize time and efficiency. When this script is active, it will automatically blur out vocabulary meanings while playing Wanikani's audio for that word. This forces you to recall words just by hearing them, which I found quite humbling yet massively beneficial to my listening skills. The downside to this approach is that hearing the words being spoken makes the reading questions unnaturally easy, leading to less improvement in this area. However, I personally find the readings already much easier than meanings, especially because you can infer them by a word's kanji composition. As such, this is not a major concern for me.
 
 ## Installation 
