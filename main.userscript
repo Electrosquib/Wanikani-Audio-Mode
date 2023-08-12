@@ -1,0 +1,88 @@
+// ==UserScript==
+// @name         Wanikani Audio Reviews
+// @namespace    https://github.com/Electrosquib/Wanikani-Audio-Mode
+// @version      0.1
+// @description  Blurs out vocabulary readings and plays audio instead to improve listening skills.
+// @author       Levi Farinas
+// @match        https://www.wanikani.com/
+
+// @icon         https://www.google.com/s2/favicons?sz=64&domain=wanikani.com
+// @grant        none
+
+// @match        https://www.wanikani.com/*
+// @match        https://preview.wanikani.com/*
+// @license      MIT; http://opensource.org/licenses/MIT
+// @run-at       document-end
+// ==/UserScript==
+
+(function() {
+    'use strict';
+
+    // You can modify these variable to change the voice, vocabulary text color, and kanji text color.
+    // This is useful if you use a custom theme for Wanikani and want the text to match it.
+    let voice_actor = 0; // Use 0 for Kyoko (female) and 1 for Kenichi (male)
+    let vocab_color = "#2ECC71";
+    let kanji_color = "#FDBC4B";
+
+
+    let item;
+    let prev_char;
+    let prev_type;
+    let from_button = 0;
+
+    function main() {
+        item = document.getElementsByClassName("character-header__characters")[0];
+        //item.style.setProperty("color", "transparent", "important");
+        let question_type = document.getElementsByClassName("quiz-input__question-type")[0].innerHTML;
+
+        if (item.innerHTML == prev_char && from_button == 0) {
+            return
+        }
+        from_button = 0;
+        let review = JSON.parse(document.getElementById("quiz-queue").querySelector("[data-quiz-queue-target='subjects']").innerHTML);
+        let current_item;
+        if (question_type == "meaning") {
+            // Get data for current review (changes "item" to "element" variable)
+            review.forEach((element) => {
+                if (element.characters == item.innerHTML) {
+                    current_item = element;
+                }
+            });
+            // Blur review item
+            if (current_item.type == "Vocabulary") {
+                item.style.setProperty("text-shadow", `0 0 50px ${vocab_color}`, "important");
+                item.style.setProperty("color", "transparent", "important");
+                //item.style.setProperty("text-shadow", "0 0 25px #2ECC71", "important");
+                item.addEventListener("mouseover", function() {
+                    item.style.setProperty("color", vocab_color, "important");
+                    item.style.setProperty("text-shadow", `0 0 0px ${vocab_color}`, "important");
+                });
+                item.addEventListener("mouseleave", function() {
+                    item.style.setProperty("text-shadow", `0 0 50px ${vocab_color}`, "important");
+                    item.style.setProperty("color", "transparent", "important");
+                });
+                let audio_url = current_item.readings[0].pronunciations[voice_actor].sources[1].url;
+                var audio = new Audio(audio_url);
+                audio.play();
+                prev_char = item.innerHTML;
+                prev_type = question_type;
+            }
+        }
+
+
+        if (question_type == "reading") {
+            item.style.setProperty("text-shadow", `0 0 0px ${vocab_color}`, "important");
+        }
+        else if (current_item.type == "Kanji") {
+            item.style.setProperty("text-shadow", `0 0 0px ${kanji_color}`, "important");
+        }
+    };
+
+    main();
+    document.addEventListener('keyup', (event) => {
+            if (event.code == "Enter") {
+                main();
+                console.log("yo");
+    }});
+
+})();
