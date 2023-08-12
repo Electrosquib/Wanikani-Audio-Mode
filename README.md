@@ -9,6 +9,8 @@ Before installing this script, please ensure you have a userscript manager like 
 To install this script, go to this url: ""
 Then click the install button.
 
+You could also just create a new script within Tampermonky and copy the source code in "main.userscript" to that file. This will allow you to change or improve the code on the fly.
+
 ## Modification
 The speakers voice can be changed to male or female by modifying the "voice_actor" variable accordingly. Setting the value to 0 changes the voice to Kyoko (female), while 1 changes it to Kenichi (male). 
 
